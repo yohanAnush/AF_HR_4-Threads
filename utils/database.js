@@ -1,4 +1,4 @@
-/*
+/**
  * This will handle the basic connection and model definitions
  * with mongodb via mongoose.
  *
@@ -26,8 +26,22 @@ db.on('error', (error) => {
  * Be sure to add the mapping of the Model to the export at the end
  */
 
+//Employee model definition
+const EmployeeModel = new Schema({
+    eid: String,
+    email: String,
+    password: String,
+    name: String,
+    gender: String,
+    position: String,
+    department: String,
+    date_joined: Date
+});
+
+var Employee = mongoose.model('Employee', EmployeeModel);
+
 // Attendance model definition.
-var AttendanceModel = new Schema ({
+var AttendanceModel = new Schema({
     eid: Number,
     time_in: Date,
     time_out: Date
@@ -46,4 +60,4 @@ var Leave = mongoose.model('Leave', LeaveModel);
 
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave };
+module.exports = { Attendance, Leave , Employee};
