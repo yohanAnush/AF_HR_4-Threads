@@ -12,13 +12,10 @@ const mongoDb = 'mongodb://127.0.0.1:27017/HR'; // HR is the database.
 /* * Connection establishing * */
 mongoose.connect(mongoDb);
 mongoose.Promise = global.Promise;
-
 // this is what we should manipulate.
 var db = mongoose.connection;
-
 // for defining schema. Use Schema(..) as a constructor.
 var Schema = mongoose.Schema;
-
 // for errors.
 db.on('error', (error) => {
     console.log(error);
@@ -39,5 +36,14 @@ var AttendanceModel = new Schema ({
 var Attendance = mongoose.model('Attendance', AttendanceModel);
 
 /* * * Insert other models below; follow the above procedure * * */
+// Leave model definition.
+var LeaveModel = new Schema({
+    eid: Number,
+    date_start: Date,
+    date_end: Date
+});
+var Leave = mongoose.model('Leave', LeaveModel);
 
-module.exports = { Attendance };
+
+// Exporting the mapped models.
+module.exports = { Attendance, Leave };
