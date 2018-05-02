@@ -3,17 +3,39 @@ const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
 
-/* GET current attendance(today). */
+/* GET all attendance entries */
 router.get('/', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
-    // we only need attendance for current day.
-    let dateTime = new Date().toISOString().substring(0, 19).replace('T', ' ');
-    console.log(dateTime);
-    models.Attendance.find( { time_in: { $eq: Date.now()}}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
+    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
         if (err) {
             res.status(500).send("Unable to retrieve data");
         }
         else {
+            res.status(200).send(result);
+        }
+    });
+});
+
+/* GET current attendance(today). */
+router.get('/today', (req, res) => {
+    // by doing _id: 0, we exclude _id and __v attributes from the result set.
+    // we only need attendance for current day.
+    let currentDate = new Date().toISOString().substring(0, 19).split('T')[0]; // ex: 2018-05-21
+
+    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
+        if (err) {
+            res.status(500).send("Unable to retrieve data");
+        }
+        else {
+            // we iterate through the result, and if the time_in's date and current date don't match,
+            // we remove that entry from the result.
+            for (var i = 0; i < result.length; i++) {
+                let dbDate = new Date(result[i].time_in.getTime()).toISOString().split('T')[0]; // take only the date from date and time.
+
+                if (currentDate !== dbDate) {
+                    result.splice(i, 1);    // starting from index i, remove 1 entry.
+                }
+            }
             res.status(200).send(result);
         }
     });
@@ -30,7 +52,6 @@ router.post('/add', (req, res) => {
 
         attendanceEntry.save((err) => {
            if (err) {
-               console.log(err);
                res.status(400).send(err.errmsg);
            }
            else {
