@@ -4,6 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var employeeRouter = require('./routes/employee');
 var attendanceRouter = require('./routes/attendance');
 var leavesRouter = require('./routes/leaves');
 
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /* All our routes should be placed here. */
 app.use('/', indexRouter);
+app.use('/employee', employeeRouter);
 app.use('/attendance', attendanceRouter);
 app.use('/leaves', leavesRouter);
 
