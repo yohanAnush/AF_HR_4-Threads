@@ -11,8 +11,13 @@ router.get('/', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-   console.log("gi");
+   console.log("Add");
    res.send("added");
+});
+
+router.put('/update', (req, res) => {
+  console.log("Update");
+  res.send("Update");
 });
 
 module.exports = router;
