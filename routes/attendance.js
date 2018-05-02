@@ -6,7 +6,7 @@ const router = express.Router();
 /* GET all attendance entries */
 router.get('/', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
-    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
+    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result, res) => {
         if (err) {
             res.status(500).send("Unable to retrieve data");
         }
