@@ -1,14 +1,14 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var employeeRouter = require('./routes/employee');
-var attendanceRouter = require('./routes/attendance');
-var leavesRouter = require('./routes/leaves');
+const indexRouter = require('./routes/index');
+const employeeRouter = require('./routes/employee');
+const attendanceRouter = require('./routes/attendance');
+const leavesRouter = require('./routes/leaves');
 
-var app = express();
+let app = express();
 
 app.use(logger('dev'));
 app.use(express.json());

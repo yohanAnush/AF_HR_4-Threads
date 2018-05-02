@@ -1,7 +1,7 @@
 /* * * This will handle all the requests with regards to employee attendance * * */
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* GET employees on leave for today */
 router.get('/', (req, res) => {

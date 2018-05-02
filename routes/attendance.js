@@ -1,7 +1,7 @@
 /* * * This will handle all the requests with regards to employee attendancd * * */
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 /* GET current attendance(today). */
 router.get('/', (req, res) => {
