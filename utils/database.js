@@ -1,4 +1,4 @@
-/**
+/*
  * This will handle the basic connection and model definitions
  * with mongodb via mongoose.
  *
