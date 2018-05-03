@@ -11,7 +11,7 @@ router.get('/month', (req, res) => {
     let currentDateWithoutDay = currentDate.getFullYear() + '-' + currentDate.getMonth();   // 2018-05
 
 
-    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
+    models.Attendance.find( {}, { _id: 0, __v: 0 }, (err, result) => {
         if (err) {
             res.status(500).send({ error: 'Unable to retrieve data' });
         }
@@ -28,7 +28,7 @@ router.get('/month', (req, res) => {
                     //result.splice(i, 1);    // starting from index i, remove 1 entry.
                 }
             }
-            res.status(200).send(filteredResult);
+            res.status(200).send({ success: filteredResult });
         }
     });
 });
@@ -41,7 +41,7 @@ router.get('/today', (req, res) => {
     // we only need attendance for current day.
     let currentDate = new Date().toISOString().substring(0, 19).split('T')[0]; // ex: 2018-05-21
 
-    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
+    models.Attendance.find( {}, { _id: 0, __v: 0 }, (err, result) => {
         if (err) {
             res.status(500).send({ error: 'Unable to retrieve data' });
         }
@@ -57,14 +57,14 @@ router.get('/today', (req, res) => {
                     //result.splice(i, 1);    // starting from index i, remove 1 entry.
                 }
             }
-            res.status(200).send(filteredResult);
+            res.status(200).send({ success: filteredResult });
         }
     });
 });
 
 router.post('/add', (req, res) => {
     // check if the params are not empty before insertion.
-    if (req.body.eid != undefined && req.body.eid != "") {
+    if (req.body.eid != undefined && req.body.eid != '') {
         let attendanceEntry = models.Attendance({
             eid: req.body.eid,
             time_in: req.body.time_in,
