@@ -26,7 +26,7 @@ db.on('error', (error) => {
  * Be sure to add the mapping of the Model to the export at the end
  */
 
-//Employee model definition
+// Employee model definition
 const EmployeeModel = new Schema({
     eid: String,
     email: String,
