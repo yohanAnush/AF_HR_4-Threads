@@ -65,8 +65,16 @@ const DepartmentModel = new Schema({
     date_established : Date
 });
 
-let Department = mongoose.model()
+let Department = mongoose.model('Department', DepartmentModel);
 
+// General Information model definition.
+const GeneralInfoModel = new Schema({
+    hospital_name: String,
+    date_established: String,
+    services: String
+});
+
+let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee};
+module.exports = { Attendance, Leave , Employee, Department, GeneralInfo};
