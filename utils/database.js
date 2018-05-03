@@ -26,7 +26,7 @@ db.on('error', (error) => {
  * Be sure to add the mapping of the Model to the export at the end
  */
 
-//Employee model definition
+// Employee model definition
 const EmployeeModel = new Schema({
     eid: String,
     email: String,
@@ -38,25 +38,25 @@ const EmployeeModel = new Schema({
     date_joined: Date
 });
 
-var Employee = mongoose.model('Employee', EmployeeModel);
+let Employee = mongoose.model('Employee', EmployeeModel);
 
 // Attendance model definition.
-var AttendanceModel = new Schema({
+const AttendanceModel = new Schema({
     eid: Number,
     time_in: Date,
     time_out: Date
 });
 // this is what we export(the model after being mapped.
-var Attendance = mongoose.model('Attendance', AttendanceModel);
+let Attendance = mongoose.model('Attendance', AttendanceModel);
 
 /* * * Insert other models below; follow the above procedure * * */
 // Leave model definition.
-var LeaveModel = new Schema({
+const LeaveModel = new Schema({
     eid: Number,
     date_start: Date,
     date_end: Date
 });
-var Leave = mongoose.model('Leave', LeaveModel);
+let Leave = mongoose.model('Leave', LeaveModel);
 
 
 // Exporting the mapped models.

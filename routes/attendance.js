@@ -19,7 +19,7 @@ router.get('/month', (req, res) => {
             // we iterate through the result, and if the time_in's date and current date don't match,
             // we remove that entry from the result.
             let filteredResult = [];
-            for (var i = 0; i < result.length; i++) {
+            for (let i = 0; i < result.length; i++) {
                 let dbDate = new Date(new Date(result[i].time_in.getTime()).toISOString().split('T')[0]); // take only the date from date and time.
                 let dbDateWithoutDay = dbDate.getFullYear() + '-' + dbDate.getMonth();
 
@@ -49,7 +49,7 @@ router.get('/today', (req, res) => {
             // we iterate through the result, and if the time_in's date and current date don't match,
             // we remove that entry from the result.
             let filteredResult = [];
-            for (var i = 0; i < result.length; i++) {
+            for (let i = 0; i < result.length; i++) {
                 let dbDate = new Date(result[i].time_in.getTime()).toISOString().split('T')[0]; // take only the date from date and time.
 
                 if (currentDate === dbDate) {
@@ -65,7 +65,7 @@ router.get('/today', (req, res) => {
 router.post('/add', (req, res) => {
     // check if the params are not empty before insertion.
     if (req.body.eid != undefined && req.body.eid != "") {
-        var attendanceEntry = models.Attendance({
+        let attendanceEntry = models.Attendance({
             eid: req.body.eid,
             time_in: req.body.time_in,
             time_out: req.body.time_out
