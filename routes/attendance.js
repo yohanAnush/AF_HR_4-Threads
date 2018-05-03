@@ -4,20 +4,39 @@ const express = require('express');
 const router = express.Router();
 
 /* GET all attendance entries */
-router.get('/', (req, res) => {
+router.get('/month', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
-    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result, res) => {
+    // we only need attendance for current day.
+    let currentDate = new Date(new Date().toISOString().substring(0, 19).split('T')[0]); // ex: 2018-05-21
+    let currentDateWithoutDay = currentDate.getFullYear() + '-' + currentDate.getMonth();   // 2018-05
+
+
+    models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
         if (err) {
             res.status(500).send("Unable to retrieve data");
         }
         else {
-            res.status(200).send(result);
+            // we iterate through the result, and if the time_in's date and current date don't match,
+            // we remove that entry from the result.
+            let filteredResult = [];
+            for (var i = 0; i < result.length; i++) {
+                let dbDate = new Date(new Date(result[i].time_in.getTime()).toISOString().split('T')[0]); // take only the date from date and time.
+                let dbDateWithoutDay = dbDate.getFullYear() + '-' + dbDate.getMonth();
+
+                if (currentDateWithoutDay === dbDateWithoutDay) {
+                    filteredResult.push(result[i]);
+                    //result.splice(i, 1);    // starting from index i, remove 1 entry.
+                }
+            }
+            res.status(200).send(filteredResult);
         }
     });
 });
 
+
 /* GET current attendance(today). */
 router.get('/today', (req, res) => {
+
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
     // we only need attendance for current day.
     let currentDate = new Date().toISOString().substring(0, 19).split('T')[0]; // ex: 2018-05-21
@@ -29,14 +48,16 @@ router.get('/today', (req, res) => {
         else {
             // we iterate through the result, and if the time_in's date and current date don't match,
             // we remove that entry from the result.
+            let filteredResult = [];
             for (var i = 0; i < result.length; i++) {
                 let dbDate = new Date(result[i].time_in.getTime()).toISOString().split('T')[0]; // take only the date from date and time.
 
-                if (currentDate !== dbDate) {
-                    result.splice(i, 1);    // starting from index i, remove 1 entry.
+                if (currentDate === dbDate) {
+                    filteredResult.push(result[i]);
+                    //result.splice(i, 1);    // starting from index i, remove 1 entry.
                 }
             }
-            res.status(200).send(result);
+            res.status(200).send(filteredResult);
         }
     });
 });
