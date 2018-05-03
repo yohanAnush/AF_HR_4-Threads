@@ -3,7 +3,7 @@ const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
 
-/* GET all attendance entries */
+/* GET all attendance entries for this month */
 router.get('/month', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
     // we only need attendance for current day.
