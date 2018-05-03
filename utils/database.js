@@ -26,7 +26,7 @@ db.on('error', (error) => {
  * Be sure to add the mapping of the Model to the export at the end
  */
 
-// Employee model definition
+// Employee model definition.
 const EmployeeModel = new Schema({
     eid: String,
     email: String,
@@ -57,6 +57,15 @@ const LeaveModel = new Schema({
     date_end: Date
 });
 let Leave = mongoose.model('Leave', LeaveModel);
+
+// Department model definition.
+const DepartmentModel = new Schema({
+    did : String,
+    name : String,
+    date_established : Date
+});
+
+let Department = mongoose.model()
 
 
 // Exporting the mapped models.
