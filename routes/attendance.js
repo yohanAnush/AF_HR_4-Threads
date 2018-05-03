@@ -13,7 +13,7 @@ router.get('/month', (req, res) => {
 
     models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
         if (err) {
-            res.status(500).send("Unable to retrieve data");
+            res.status(500).send({ error: 'Unable to retrieve data' });
         }
         else {
             // we iterate through the result, and if the time_in's date and current date don't match,
@@ -43,7 +43,7 @@ router.get('/today', (req, res) => {
 
     models.Attendance.find( {}, { _id: 0, eid: 1, time_in: 1, time_out: 1 }, (err, result) => {
         if (err) {
-            res.status(500).send("Unable to retrieve data");
+            res.status(500).send({ error: 'Unable to retrieve data' });
         }
         else {
             // we iterate through the result, and if the time_in's date and current date don't match,
@@ -73,15 +73,15 @@ router.post('/add', (req, res) => {
 
         attendanceEntry.save((err) => {
            if (err) {
-               res.status(400).send(err.errmsg);
+               res.status(400).send({ error: err.errmsg });
            }
            else {
-               res.status(201).send('Entry inserted');
+               res.status(201).send({ success: 'Entry inserted' });
            }
         });
     }
     else {
-        res.status(400).send("eid can not be empty.");
+        res.status(400).send({ error: 'eid can not be empty' });
     }
 
 });

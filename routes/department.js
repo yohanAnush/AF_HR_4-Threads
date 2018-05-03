@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
             console.log("Department details retrieval failed!");
             process.exit(-1);
         }
-        res.status(200).send(data);
+        res.status(200).send({ data: data});
     });
 });
 
@@ -37,10 +37,10 @@ router.post('/add', (req,res) =>{
     });
     dept.save((err) => {
         if(err){
-            res.status(400).send("Department insertion error : " + err);
+            res.status(400).send({ error: 'Department insertion error : ' + err });
         }
         else{
-            res.status(200).send("Department inserted successfully!");
+            res.status(200).send({ success: 'Department inserted successfully!' });
         }
     });
 });
@@ -50,9 +50,9 @@ router.post('/add', (req,res) =>{
 router.put('/update/:did', (req, res) => {
 
     models.Department.update({ did: req.params.did}, req.body).then(() => {
-        res.status(200).send({ message: "Successfully Updated!" });
+        res.status(200).send({ success: "Successfully Updated!" });
     }).catch(err => {
-        res.status(404).send({ message: "Given department id doesn't exist!", error: err });
+        res.status(404).send({ error: 'Given department id doesn\'t exist!\n' + err });
     });
 });
 
@@ -61,9 +61,9 @@ router.put('/update/:did', (req, res) => {
 router.delete('/remove/:did', (req, res) => {
 
     models.Department.remove({ did: req.params.did }).then(() => {
-        res.status(200).send({ message: "Successfully Deleted!" });
+        res.status(200).send({ success: 'Successfully Deleted!' });
     }).catch(err => {
-        res.status(404).send({ message: "Given department id doesn't exist!", error: err });
+        res.status(404).send({ error: 'Given department id doesn\'t exist!\n' + err });
     });
 });
 
