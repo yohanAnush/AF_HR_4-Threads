@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
   models.Employee.find({}, function (err, data) {
     if (err) {
       console.log(err);
-      process.exit(-1);
     }
     res.status(200).send(data);
   });
@@ -45,7 +44,7 @@ router.post('/add', (req, res) => {
   });
 
   emp.save().then(() => {
-    res.status(200).send({ message: 'Successfully added the employee' });
+    res.status(200).send({ success: 'Successfully added the employee' });
   });
 
 });
@@ -58,9 +57,9 @@ router.post('/add', (req, res) => {
 router.put('/update/:id', (req, res) => {
 
   models.Employee.update({ _id: req.params.id }, req.body).then(() => {
-    res.status(200).send({ message: 'Successfully Updated' });
+    res.status(200).send({ success: 'Successfully Updated' });
   }).catch(err => {
-    res.status(404).send({ message: 'Invalid Id Provided', error: err });
+    res.status(404).send({ error: 'Invalid Id Provided ' + err });
   });
 
 });
@@ -69,9 +68,9 @@ router.put('/update/:id', (req, res) => {
 router.delete('/remove/:id', (req, res) => {
 
   models.Employee.remove({ _id: req.params.id }).then(() => {
-    res.status(200).send({ message: 'Successfully Deleted' });
+    res.status(200).send({ success: 'Successfully Deleted' });
   }).catch(err => {
-    res.status(404).send({ message: 'Invalid Id Provided', error: err });
+    res.status(404).send({ error: 'Invalid Id Provided ' + err });
   });
 
 });
