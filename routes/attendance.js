@@ -7,29 +7,7 @@ const router = express.Router();
 router.get('/month', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
     // we only need attendance for current day.
-    /*let currentDate = new Date(new Date().toISOString().substring(0, 19).split('T')[0]); // ex: 2018-05-21
-    let currentDateWithoutDay = currentDate.getFullYear() + '-' + currentDate.getMonth();   // 2018-05
 
-    models.Attendance.find( {}, { _id: 0, __v: 0 }, (err, result) => {
-        if (err) {
-            res.status(500).send({ error: 'Unable to retrieve data' });
-        }
-        else {
-            // we iterate through the result, and if the time_in's date and current date don't match,
-            // we remove that entry from the result.
-            let filteredResult = [];
-            for (let i = 0; i < result.length; i++) {
-                let dbDate = new Date(new Date(result[i].time_in.getTime()).toISOString().split('T')[0]); // take only the date from date and time.
-                let dbDateWithoutDay = dbDate.getFullYear() + '-' + dbDate.getMonth();
-
-                if (currentDateWithoutDay === dbDateWithoutDay) {
-                    filteredResult.push(result[i]);
-                    //result.splice(i, 1);    // starting from index i, remove 1 entry.
-                }
-            }
-            res.status(200).send({ success: filteredResult });
-        }
-    });*/
 
     getAllAttendance()
         .then((resolve) => {
@@ -44,12 +22,17 @@ router.get('/month', (req, res) => {
 router.get('/today', (req, res) => {
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
     // we only need attendance for current day.
-    getAllAttendance(new Date('2018-03-21'))
+    getAllAttendance(new Date('2018-03-25'))
         .then((resolve) => {
-            res.send(resolve);
+            if (resolve.length === 0) {
+                res.status(404).send({ error: 'No entries found for today.' });
+            }
+            else {
+                res.status(200).send({ success: resolve });
+            }
         })
         .catch((reject) => {
-            res.send(reject)
+            res.status(500).send({ error: reject});
         });
 
 });
@@ -88,13 +71,18 @@ router.post('/add', (req, res) => {
  * and any update won't be caught afterwards.
  */
 let getAllAttendance = (date) => {
+
     return new Promise((resolve, reject) => {
-        models.Attendance.find( {date: { $gte: ISODate(new Date(date.getTime()-(24 * 60 * 60 * 1000))), $lt: ISODate(new Date(date.getTime()+(24 * 60 * 60 * 1000)))} },
-                                {_id: 0, __v: 0}, (err, result) => {
+        let dayBeforeDate = new Date(date.getTime() - (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+        let dayAfterDate = new Date(date.getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
+
+        models.Attendance.find({ date: {$gte: dayBeforeDate, $lt: dayAfterDate} }, { _id: 0, __: 0}, (err, result) => {
             if (err) {
+                console.log(dayBeforeDate);
                 reject(err);
             }
             else {
+                console.log(dayAfterDate);
                 resolve(result);
             }
         });
