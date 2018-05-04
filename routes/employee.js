@@ -7,7 +7,7 @@ const router = express.Router();
 /* GET Employee Details. */
 router.get('/', (req, res) => {
 
-  models.Employee.find({}, function (err, data) {
+  models.Employee.find({},  (err, data) => {
     if (err) {
       console.log(err);
     }
@@ -19,10 +19,9 @@ router.get('/', (req, res) => {
 
 /*GET single employee details using _id */
 router.get('/:id', (req, res) => {
-  models.Employee.find({ _id: req.params.id }, function (err, data) {
+  models.Employee.find({ _id: req.params.id },  (err, data) => {
     if (err) {
       console.log(err);
-      process.exit(-1);
     }
     res.status(200).send(data);
   });
