@@ -1,0 +1,1 @@
+/* for all helper functions related to department */
