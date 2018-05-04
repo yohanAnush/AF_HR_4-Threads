@@ -42,9 +42,11 @@ let Employee = mongoose.model('Employee', EmployeeModel);
 
 // Attendance model definition.
 const AttendanceModel = new Schema({
-    eid: Number,
-    time_in: Date,
-    time_out: Date
+    eid: String,
+    date: Date,
+    time_in: String,
+    time_out: String
+
 });
 // this is what we export(the model after being mapped.
 let Attendance = mongoose.model('Attendance', AttendanceModel);
