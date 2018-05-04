@@ -4,5 +4,5 @@
 
 function generateId(){
     var idPart1 = "DPT";
-    var something;
+    var something = " ";
 }
