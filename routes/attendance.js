@@ -10,7 +10,6 @@ router.get('/month', (req, res) => {
     let currentDate = new Date(new Date().toISOString().substring(0, 19).split('T')[0]); // ex: 2018-05-21
     let currentDateWithoutDay = currentDate.getFullYear() + '-' + currentDate.getMonth();   // 2018-05
 
-
     models.Attendance.find( {}, { _id: 0, __v: 0 }, (err, result) => {
         if (err) {
             res.status(500).send({ error: 'Unable to retrieve data' });
@@ -33,10 +32,8 @@ router.get('/month', (req, res) => {
     });
 });
 
-
 /* GET current attendance(today). */
 router.get('/today', (req, res) => {
-
     // by doing _id: 0, we exclude _id and __v attributes from the result set.
     // we only need attendance for current day.
     let currentDate = new Date().toISOString().substring(0, 19).split('T')[0]; // ex: 2018-05-21

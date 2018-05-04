@@ -76,5 +76,7 @@ const GeneralInfoModel = new Schema({
 
 let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
 
+
+
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, Department, GeneralInfo};
+module.exports = { Attendance, Leave , Employee, Department, GeneralInfo };
