@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     models.Department.find({}, { _id: 0, __v:0 } , function (err,data) {
         if (err) {
-            console.log("Department details retrieval failed!");
+            console.log('Department details retrieval failed!');
             process.exit(-1);
         }
         res.status(200).send({ data: data});
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 router.get('/:did', (req, res) => {
     models.Department.find({did: req.params.did}, {_id: 0, __v:0}, function (err, data) {
         if (err) {
-            console.log("Given department id doesn't exist!");
+            console.log('Given department id doesn\'t exist!');
             process.exit(-1);
         }
         res.status(200).send(data);
@@ -50,7 +50,7 @@ router.post('/add', (req,res) =>{
 router.put('/update/:did', (req, res) => {
 
     models.Department.update({ did: req.params.did}, req.body).then(() => {
-        res.status(200).send({ success: "Successfully Updated!" });
+        res.status(200).send({ success: 'Successfully Updated!' });
     }).catch(err => {
         res.status(404).send({ error: 'Given department id doesn\'t exist!\n' + err });
     });
