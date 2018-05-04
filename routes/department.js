@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     models.Department.find({}, { _id: 0, __v:0 } , function (err,data) {
         if (err) {
             console.log('Department details retrieval failed!');
-            process.exit(-1);
+
         }
         res.status(200).send({ data: data});
     });
@@ -20,7 +20,6 @@ router.get('/:did', (req, res) => {
     models.Department.find({did: req.params.did}, {_id: 0, __v:0}, function (err, data) {
         if (err) {
             console.log('Given department id doesn\'t exist!');
-            process.exit(-1);
         }
         res.status(200).send(data);
     });
