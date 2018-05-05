@@ -7,11 +7,12 @@ const router = express.Router();
 /* GET Employee Details. */
 router.get('/', (req, res) => {
 
-  models.Employee.find({},  (err, data) => {
+  models.Employee.find({}, { _id: 0, __v: 0 }, (err, data) => {
     if (err) {
       console.log(err);
+      res.status(404).send('Unable to retrieve. Error : ' + err);
     }
-    res.status(200).send(data);
+    res.status(200).send({ success: data });
   });
 
 });
@@ -19,11 +20,16 @@ router.get('/', (req, res) => {
 
 /*GET single employee details using _id */
 router.get('/:id', (req, res) => {
-  models.Employee.find({ _id: req.params.id },  (err, data) => {
+  models.Employee.find({ eid: req.params.id }, { _id: 0, __v: 0 }, (err, data) => {
     if (err) {
-      console.log(err);
+      res.status(500).send({ error: 'Internal error : ' + err });
     }
-    res.status(200).send(data);
+    else if (data.length === 0) {
+      res.status(404).send({ error: 'Invalid id provided.' });
+    }
+    else {
+      res.status(200).send({ success: data });
+    }
   });
 });
 
@@ -42,10 +48,13 @@ router.post('/add', (req, res) => {
     date_joined: new Date(Date.now()),
   });
 
-  emp.save().then(() => {
+  emp.save((err) => {
+    if (err) {
+      res.status(400).send({ error: 'Error occur while adding employee : ' + err });
+    }
     res.status(200).send({ success: 'Successfully added the employee' });
-  });
 
+  });
 });
 
 
@@ -54,25 +63,50 @@ router.post('/add', (req, res) => {
  * PUT method is used to update details
  */
 router.put('/update/:id', (req, res) => {
-
-  models.Employee.update({ _id: req.params.id }, req.body).then(() => {
-    res.status(200).send({ success: 'Successfully Updated' });
-  }).catch(err => {
-    res.status(404).send({ error: 'Invalid Id Provided ' + err });
+  findEmployee(req.params.id).then((data) => {
+    models.Employee.update({ eid: req.params.id }, req.body, (err) => {
+      if (err) {
+        res.status(500).send({ error: 'Internal error : ' + err });
+      }
+      res.status(200).send({ success: 'Successfully Updated' });
+    });
+  }).catch((err) => {
+    res.status(404).send({ error: 'Invalid Id Provided ' });
   });
-
 });
 
 /*Remove Employee, Request parameter is _id */
 router.delete('/remove/:id', (req, res) => {
 
-  models.Employee.remove({ _id: req.params.id }).then(() => {
-    res.status(200).send({ success: 'Successfully Deleted' });
-  }).catch(err => {
-    res.status(404).send({ error: 'Invalid Id Provided ' + err });
+  findEmployee(req.params.id).then((data) => {
+    models.Employee.remove({ eid: req.params.id }, (err) => {
+      if (err) {
+        res.status(500).send({ error: 'Internal error : ' + err });
+      }
+      res.status(200).send({ success: 'Successfully Deleted' });
+    });
+  }).catch((err) => {
+    res.status(404).send({ error: 'Invalid Id Provided ' });
   });
 
+
 });
+
+function findEmployee(id) {
+  return new Promise((resolve, reject) => {
+    models.Employee.find({ eid: id }, { _id: 0, __: 0 }, (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+        if (result.length === 0) {
+          reject('invalid id');
+        } else {
+          resolve(result);
+        }
+      }
+    });
+  });
+}
 
 
 module.exports = router;
