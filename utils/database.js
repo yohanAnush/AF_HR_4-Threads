@@ -79,6 +79,29 @@ const GeneralInfoModel = new Schema({
 let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
 
 
+/*
+ * This will return all the entries that corresponds to the model you pass.
+ *
+ * @Param: model
+ *      this model is what we create by using new Schema(..) at the beginning of this .js file.
+ * @Param: searchCriteria
+ *      this is a json string that has constraints for the find query. ex: { name: 'Anushka' }
+ *      indicates that the find query has to return elements that has Anushka as the name in the model
+ *      that we provided.
+ */
+let getAll = (model, searchCriteria) => {
+    return new Promise((resolve, reject) => {
+        model.find(searchCriteria, { _id: 0, __v: 0}, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            else {
+                resolve(result);
+            }
+        });
+
+    });
+}
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, Department, GeneralInfo };
+module.exports = { Attendance, Leave , Employee, Department, GeneralInfo, getAll };
