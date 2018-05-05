@@ -51,14 +51,28 @@ const AttendanceModel = new Schema({
 // this is what we export(the model after being mapped.
 let Attendance = mongoose.model('Attendance', AttendanceModel);
 
-/* * * Insert other models below; follow the above procedure * * */
 // Leave model definition.
 const LeaveModel = new Schema({
-    eid: Number,
+    eid: String,
     date_start: Date,
     date_end: Date
 });
 let Leave = mongoose.model('Leave', LeaveModel);
+
+// Shift model definition.
+const ShiftModel = new Schema({
+    eid: String,
+    shifts: {
+        monday: { time_start: String, time_end: String },
+        tuesday: { time_start: String, time_end: String },
+        wednesday: { time_start: String, time_end: String },
+        thursday: { time_start: String, time_end: String },
+        friday: { time_start: String, time_end: String },
+        saturday: { time_start: String, time_end: String },
+        sunday: { time_start: String, time_end: String }
+    }
+});
+let Shift = mongoose.model('Shift', ShiftModel);
 
 // Department model definition.
 const DepartmentModel = new Schema({
@@ -112,4 +126,4 @@ let getAll = (model, searchCriteria) => {
 }
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, Department, GeneralInfo, getAll };
+module.exports = { Attendance, Leave , Employee, Department, GeneralInfo, Shift, getAll };
