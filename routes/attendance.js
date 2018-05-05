@@ -3,6 +3,22 @@ const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
 
+/* GET all entries since the beginning */
+router.get('/', (req, res) => {
+    models.getAll(models.Attendance, {})
+        .then((resolve) => {
+            if (resolve.length === 0) {
+                res.status(404).send({ error: 'No entries found for today.' });
+            }
+            else {
+                res.status(200).send({ success: resolve });
+            }
+        })
+        .catch((reject) => {
+            res.status(500).send({ error: reject});
+        });
+});
+
 /* GET all attendance entries for this month */
 router.get('/month', (req, res) => {
     // we simply get any entry that's date is higher or equal to the 1st of the given month,
@@ -75,32 +91,5 @@ router.post('/add', (req, res) => {
 
 });
 
-
-// promises for getting data from mongodb
-
-/*
- * return the promise body instead of assigning a new Promise to a variable,/
- * straight away. Otherwise the promise would be executed just after server starts,
- * and any update won't be caught afterwards.
- */
-let getAllAttendance = (date) => {
-
-    return new Promise((resolve, reject) => {
-        let dayBeforeDate = new Date(date.getTime() - (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-        let dayAfterDate = new Date(date.getTime() + (24 * 60 * 60 * 1000)).toISOString().split('T')[0];
-
-        models.Attendance.find({ date: {$gte: dayBeforeDate, $lt: dayAfterDate} }, { _id: 0, __: 0}, (err, result) => {
-            if (err) {
-                console.log(dayBeforeDate);
-                reject(err);
-            }
-            else {
-                console.log(dayAfterDate);
-                resolve(result);
-            }
-        });
-
-    });
-}
 
 module.exports = router;

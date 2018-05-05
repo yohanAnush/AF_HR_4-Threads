@@ -88,8 +88,16 @@ let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
  *      this is a json string that has constraints for the find query. ex: { name: 'Anushka' }
  *      indicates that the find query has to return elements that has Anushka as the name in the model
  *      that we provided.
+ *      if all the entries are needed without any filtering, just leave searchCriteria as {} or as an empty str
+ *      where you are calling this method.
+ *
+ * This is a promise, so use .then and .catch to handle data.
  */
 let getAll = (model, searchCriteria) => {
+    // if no search criteria is specified, we return all the entries in the table.
+    if (searchCriteria === undefined || searchCriteria === '') {
+        searchCriteria = {};
+    }
     return new Promise((resolve, reject) => {
         model.find(searchCriteria, { _id: 0, __v: 0}, (err, result) => {
             if (err) {
