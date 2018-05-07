@@ -62,15 +62,9 @@ let Leave = mongoose.model('Leave', LeaveModel);
 // Shift model definition.
 const ShiftModel = new Schema({
     eid: String,
-    shifts: {
-        monday: { time_start: String, time_end: String },
-        tuesday: { time_start: String, time_end: String },
-        wednesday: { time_start: String, time_end: String },
-        thursday: { time_start: String, time_end: String },
-        friday: { time_start: String, time_end: String },
-        saturday: { time_start: String, time_end: String },
-        sunday: { time_start: String, time_end: String }
-    }
+    shifts: [
+        { day: String, time_start: String, time_end: String }
+    ]
 });
 let Shift = mongoose.model('Shift', ShiftModel);
 

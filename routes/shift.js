@@ -3,19 +3,15 @@ const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
 
+
 router.post('/add', (req, res) => {
-    console.log(req.body.shifts.monday.time_start);
+
+    // TODO validate the shifts.
     let shiftEntry = models.Shift({
         eid: req.body.eid,
-        shifts: {
-            monday: { time_start: req.body.shifts.monday.time_start, time_end: req.body.shifts.monday.time_end },
-            tuesday: { time_start: req.body.shifts.tuesday.time_start, time_end: req.body.shifts.tuesday.time_end },
-            wednesday: { time_start: req.body.shifts.wednesday.time_start, time_end: req.body.shifts.wednesday.time_end },
-            thursday: { time_start: req.body.shifts.thursday.time_start, time_end: req.body.shifts.thursday.time_end },
-            friday: { time_start: req.body.shifts.friday.time_start, time_end: req.body.shifts.friday.time_end },
-            saturday: { time_start: req.body.shifts.saturday.time_start, time_end: req.body.shifts.saturday.time_end },
-            sunday: { time_start: req.body.shifts.sunday.time_start, time_end: req.body.shifts.sunday.time_end }
-        }
+        shifts: req.body.shifts
+        // here, req.body.shifts contains an array where each element specifies the day and,
+        // the in and out times for that day.
     });
 
     shiftEntry.save((err) => {
