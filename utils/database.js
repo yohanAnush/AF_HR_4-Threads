@@ -9,7 +9,7 @@
 const mongoose = require('mongoose');
 const mongoDb = 'mongodb://127.0.0.1:27017/HR'; // HR is the database.
 
-/* * Connection establishing * */
+// establish connection.
 mongoose.connect(mongoDb);
 mongoose.Promise = global.Promise;
 // this is what we should manipulate.
@@ -106,6 +106,9 @@ let getAll = (model, searchCriteria) => {
     if (searchCriteria === undefined || searchCriteria === '') {
         searchCriteria = {};
     }
+
+    //  we return the function body to the caller, otherwise this query will be executed,
+    // when the program starts instead of running every time we call it.
     return new Promise((resolve, reject) => {
         model.find(searchCriteria, { _id: 0, __v: 0}, (err, result) => {
             if (err) {
@@ -115,7 +118,6 @@ let getAll = (model, searchCriteria) => {
                 resolve(result);
             }
         });
-
     });
 }
 
