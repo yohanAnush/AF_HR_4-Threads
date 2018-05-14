@@ -7,10 +7,10 @@ const router = express.Router();
 router.get('/', (req, res) => {
     models.Department.find({}, { _id: 0, __v:0 } , function (err,data) {
         if (err) {
-            console.log('Department details retrieval failed!');
+            res.send({ success: false, data: err});
 
         }
-        res.status(200).send({ data: data});
+        res.status(200).send({ success: true, data: data});
     });
 });
 
@@ -19,9 +19,9 @@ router.get('/', (req, res) => {
 router.get('/:did', (req, res) => {
     models.Department.find({did: req.params.did}, {_id: 0, __v:0}, function (err, data) {
         if (err) {
-            console.log('Given department id doesn\'t exist!');
+            res.send({ success: false, data: err});
         }
-        res.status(200).send(data);
+        res.status(200).send({ success: true, data: data});
     });
 });
 
@@ -36,10 +36,10 @@ router.post('/add', (req,res) =>{
     });
     dept.save((err) => {
         if(err){
-            res.status(400).send({ error: 'Department insertion error : ' + err });
+            res.status(400).send({ success: false, data: 'Department insertion error : ' + err });
         }
         else{
-            res.status(200).send({ success: 'Department inserted successfully!' });
+            res.status(200).send({ success: true, data: 'Department inserted successfully!' });
         }
     });
 });
@@ -49,9 +49,9 @@ router.post('/add', (req,res) =>{
 router.put('/update/:did', (req, res) => {
 
     models.Department.update({ did: req.params.did}, req.body).then(() => {
-        res.status(200).send({ success: 'Successfully Updated!' });
+        res.status(200).send({ success: true, data: 'Successfully Updated!' });
     }).catch(err => {
-        res.status(404).send({ error: 'Given department id doesn\'t exist!\n' + err });
+        res.status(404).send({ success: false, data: 'Given department id doesn\'t exist!\n' + err });
     });
 });
 
@@ -60,9 +60,9 @@ router.put('/update/:did', (req, res) => {
 router.delete('/remove/:did', (req, res) => {
 
     models.Department.remove({ did: req.params.did }).then(() => {
-        res.status(200).send({ success: 'Successfully Deleted!' });
+        res.status(200).send({ success: true, data: 'Successfully Deleted!' });
     }).catch(err => {
-        res.status(404).send({ error: 'Given department id doesn\'t exist!\n' + err });
+        res.status(404).send({ success: false, data: 'Given department id doesn\'t exist!\n' + err });
     });
 });
 

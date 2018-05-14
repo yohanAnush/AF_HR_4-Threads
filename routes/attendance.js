@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
     models.getAll(models.Attendance, {})
         .then((resolve) => {
             if (resolve.length === 0) {
-                res.status(404).send({ error: 'No entries found for today.' });
+                res.status(404).send({ success: false, data: 'No entries found for today.' });
             }
             else {
-                res.status(200).send({ success: resolve });
+                res.status(200).send({ success: true, data: resolve });
             }
         })
         .catch((reject) => {
-            res.status(500).send({ error: reject});
+            res.status(500).send({ success: false, data: reject});
         });
 });
 
@@ -32,14 +32,14 @@ router.get('/month', (req, res) => {
     models.getAll(models.Attendance, searchCriteria)
         .then((resolve) => {
             if (resolve.length === 0) {
-                res.status(404).send({ error: 'No entries found for today.' });
+                res.status(404).send({ success: false, data: 'No entries found for today.' });
             }
             else {
-                res.status(200).send({ success: resolve });
+                res.status(200).send({ success: true, data: resolve });
             }
         })
         .catch((reject) => {
-            res.status(500).send({ error: reject});
+            res.status(500).send({ success: false, data: reject});
         });
 });
 
@@ -55,14 +55,14 @@ router.get('/today', (req, res) => {
     models.getAll(models.Attendance, searchCriteria)
         .then((resolve) => {
             if (resolve.length === 0) {
-                res.status(404).send({ error: 'No entries found for today.' });
+                res.status(404).send({ success: false, data: 'No entries found for today.' });
             }
             else {
-                res.status(200).send({ success: resolve });
+                res.status(200).send({ success: true, data: resolve });
             }
         })
         .catch((reject) => {
-            res.status(500).send({ error: reject});
+            res.status(500).send({ success: false, data: reject});
         });
 });
 
@@ -78,15 +78,15 @@ router.post('/add', (req, res) => {
 
         attendanceEntry.save((err) => {
            if (err) {
-               res.status(400).send({ error: err.errmsg });
+               res.status(400).send({ success: false, data: err.errmsg });
            }
            else {
-               res.status(201).send({ success: 'Entry inserted' });
+               res.status(201).send({ success: true, data: 'Entry inserted' });
            }
         });
     }
     else {
-        res.status(400).send({ error: 'eid can not be empty' });
+        res.status(400).send({ success: false, data: 'eid can not be empty' });
     }
 
 });

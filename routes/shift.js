@@ -9,14 +9,14 @@ router.get('/', (req, res, next) => {
     models.getAll(models.Shift, {})
         .then((resolve) => {
             if (resolve.length === 0) {
-                res.status(404).send({ error: 'No entries found for today.' });
+                res.status(404).send({ success: false, data: 'No entries found for today.' });
             }
             else {
-                res.status(200).send({ success: resolve });
+                res.status(200).send({ success: true, data: resolve });
             }
         })
         .catch((reject) => {
-            res.status(500).send({ error: reject});
+            res.status(500).send({ success: false, data: reject});
         });
 });
 
@@ -32,15 +32,15 @@ router.post('/add', (req, res) => {
 
         shiftEntry.save((err) => {
             if (err) {
-                res.status(400).send({ error: err.errmsg });
+                res.status(400).send({ success: false, data: err.errmsg });
             }
             else {
-                res.status(201).send({ success: 'Entry inserted' });
+                res.status(201).send({ success: true, data: 'Entry inserted' });
             }
         });
     }
     else {
-        res.status(400).send({ error: 'Invalid day or/and time found in shifts.' });
+        res.status(400).send({ success: false, data: 'Invalid day or/and time found in shifts.' });
     }
 });
 
@@ -48,14 +48,14 @@ router.get('/', (req, res) => {
     models.getAll(models.Shift, {})
         .then((resolve) => {
             if (resolve.length === 0) {
-                res.status(404).send({ error: 'No entries found for today.' });
+                res.status(404).send({ success: false, data: 'No entries found for today.' });
             }
             else {
-                res.status(200).send({ success: resolve });
+                res.status(200).send({ success: true, data: resolve });
             }
         })
         .catch((reject) => {
-            res.status(500).send({ error: reject});
+            res.status(500).send({ success: false, data: reject});
         });
 });
 
