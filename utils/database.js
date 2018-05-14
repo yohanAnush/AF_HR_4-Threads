@@ -9,8 +9,16 @@
 const mongoose = require('mongoose');
 const mongoDb = 'mongodb://127.0.0.1:27017/HR'; // HR is the database.
 
+let dbOptions = {
+    db: { native_parser: true },
+    server: { poolSize: 5 },
+    replset: { rs_name: 'myReplicaSetName' },
+    user: 'aliyanage44',
+    pass: 'Sensei@megathrone123'
+}
+
 // establish connection.
-mongoose.connect(mongoDb);
+mongoose.connect(mongoDb, dbOptions);
 mongoose.Promise = global.Promise;
 // this is what we should manipulate.
 var db = mongoose.connection;
