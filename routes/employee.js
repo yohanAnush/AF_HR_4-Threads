@@ -12,7 +12,12 @@ router.get('/', (req, res) => {
       console.log(err);
       res.status(404).send( {success: false, data: 'Unable to retrieve. Error : ' + err });
     }
-    res.status(200).send({ success: true, data: data });
+    else if (data.length === 0) {
+      res.status(404).send({ success:false, data: 'Employee not found.' });
+    }
+    else{
+      res.status(200).send({ success: true, data: data });
+    }
   });
 
 });
