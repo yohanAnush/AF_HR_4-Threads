@@ -97,6 +97,25 @@ router.delete('/remove/:id', (req, res) => {
 
 });
 
+
+/**
+ * Update Employee details using _id
+ * PUT method is used to update details
+ */
+router.put('/assign/', (req, res) => {
+  findEmployee(req.body.eid).then((data) => {
+    models.Employee.update({ eid: req.body.eid }, req.body, (err) => {
+      if (err) {
+        res.status(500).send({ success: false, data: 'Internal error : ' + err });
+      }
+      res.status(200).send({ success: true, data: 'Employee assigned successfully' });
+    });
+  }).catch((err) => {
+    res.status(404).send({ success: false, data: 'Invalid Id Provided ' });
+  });
+});
+
+
 function findEmployee(id) {
   return new Promise((resolve, reject) => {
     models.Employee.find({ eid: id }, { _id: 0, __: 0 }, (err, result) => {
