@@ -41,15 +41,15 @@ router.get('/:id', (req, res) => {
 
 /*Add New Employee to database. Here we use POST method*/
 router.post('/add', (req, res) => {
-
+  console.log(req.body);
   var emp = new models.Employee({
     eid: Date.now(),
-    email: req.body.name + '@gmail.com',
-    password: req.body.name,
+    email: req.body.email,
+    password: req.body.email,
     name: req.body.name,
-    gender: 'Male',
+    gender: req.body.gender,
     position: req.body.position,
-    department: 'OPD',
+    department: req.body.department,
     date_joined: new Date(Date.now()),
   });
 
