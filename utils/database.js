@@ -86,6 +86,15 @@ const GeneralInfoModel = new Schema({
 
 let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
 
+//user profile
+const UserProfile = new Schema({
+    name : String,
+    username : String,
+    email : String,
+    password : String
+});
+
+let UserProfile = mongoose.model('UserProfile', UserProfileModel);
 
 /*
  * This will return all the entries that corresponds to the model you pass.
@@ -122,4 +131,4 @@ let getAll = (model, searchCriteria) => {
 }
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, Department, GeneralInfo, Shift, getAll };
+module.exports = { Attendance, Leave , Employee,UserProfile, Department, GeneralInfo, Shift, getAll };
