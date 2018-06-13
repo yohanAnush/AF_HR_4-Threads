@@ -81,7 +81,7 @@ let Department = mongoose.model('Department', DepartmentModel);
 const GeneralInfoModel = new Schema({
     hospital_name: String,
     date_established: String,
-    services: String
+    services: Array
 });
 
 let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
