@@ -42,9 +42,8 @@ router.get('/:id', (req, res) => {
 
 /*Add New Employee to database. Here we use POST method*/
 router.post('/add', (req, res) => {
-  console.log(req.body);
+
   if(!EmpHelper.isValidName(req.body.name)){
-    console.log(req.body.name+" < Invalid name");
     res.status(200).send({ success: false, data: 'Invalid Name' });
     return;
   }
@@ -53,11 +52,13 @@ router.post('/add', (req, res) => {
     return;
   }
   if(!EmpHelper.isValidGender(req.body.gender)){
-    res.status(200 ).send({ success: false, data: 'Invalid gender' });
+    res.status(200).send({ success: false, data: 'Invalid gender' });
+    return;
   }
 
+
   var emp = new models.Employee({
-    eid: Date.now(),
+    eid: EmpHelper.generateEmployeeId(),
     email: req.body.email,
     password: req.body.email,
     name: req.body.name,
