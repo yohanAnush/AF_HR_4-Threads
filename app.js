@@ -11,6 +11,7 @@ const attendanceRouter = require('./routes/attendance');
 const leavesRouter = require('./routes/leaves');
 const shiftRouter = require('./routes/shift');
 const departmentRouter = require('./routes/department');
+const generalInformationRouter = require('./routes/general');
 
 let app = express();
 
@@ -29,5 +30,6 @@ app.use('/attendance', attendanceRouter);
 app.use('/leaves', leavesRouter);
 app.use('/shift', shiftRouter);
 app.use('/department', departmentRouter);
+app.use('/general', generalInformationRouter);
 
 module.exports = app;
