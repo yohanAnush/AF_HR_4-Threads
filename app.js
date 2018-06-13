@@ -4,6 +4,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const grant = require('grant-express');
+const session = require('express-session');
 
 const indexRouter = require('./routes/index');
 const employeeRouter = require('./routes/employee');
@@ -11,6 +13,7 @@ const attendanceRouter = require('./routes/attendance');
 const leavesRouter = require('./routes/leaves');
 const shiftRouter = require('./routes/shift');
 const departmentRouter = require('./routes/department');
+const generalInformationRouter = require('./routes/general');
 
 let app = express();
 
@@ -29,5 +32,6 @@ app.use('/attendance', attendanceRouter);
 app.use('/leaves', leavesRouter);
 app.use('/shift', shiftRouter);
 app.use('/department', departmentRouter);
+app.use('/general', generalInformationRouter);
 
 module.exports = app;
