@@ -2,6 +2,7 @@
 const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
+var EmpHelper = require('../helpers/empHelper')
 
 
 /* GET Employee Details. */
@@ -42,6 +43,19 @@ router.get('/:id', (req, res) => {
 /*Add New Employee to database. Here we use POST method*/
 router.post('/add', (req, res) => {
   console.log(req.body);
+  if(!EmpHelper.isValidName(req.body.name)){
+    console.log(req.body.name+" < Invalid name");
+    res.status(200).send({ success: false, data: 'Invalid Name' });
+    return;
+  }
+  if(!EmpHelper.isValidEmail(req.body.email)){
+    res.status(200).send({ success: false, data: 'Invalid email address' });
+    return;
+  }
+  if(!EmpHelper.isValidGender(req.body.gender)){
+    res.status(200 ).send({ success: false, data: 'Invalid gender' });
+  }
+
   var emp = new models.Employee({
     eid: Date.now(),
     email: req.body.email,
@@ -55,7 +69,7 @@ router.post('/add', (req, res) => {
 
   emp.save((err) => {
     if (err) {
-      res.status(400).send({ success: false, data: 'Error occur while adding employee : ' + err });
+      res.status(500).send({ success: false, data: 'Error occur while adding employee : ' + err });
     }
     res.status(200).send({ success: true, data: 'Successfully added the employee' });
 
