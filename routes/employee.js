@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 
 
 /*GET single employee details using eid */
-router.get('/:id', (req, res) => {
+router.get('/id/:id', (req, res) => {
   models.Employee.find({ eid: req.params.id }, { _id: 0, __v: 0 }, (err, data) => {
     if (err) {
       res.status(500).send({ success: false, data: 'Internal error : ' + err });
@@ -39,7 +39,8 @@ router.get('/:id', (req, res) => {
   });
 });
 
-/*GET single employee details using eid */
+
+/*GET employee list using name */
 router.get('/name/:name', (req, res) => {
   models.Employee.find({ name: {'$regex' : '.*'+req.params.name+'.*'}}, { _id: 0, __v: 0 }, (err, data) => {
     if (err) {
