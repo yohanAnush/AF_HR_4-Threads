@@ -87,7 +87,7 @@ const GeneralInfoModel = new Schema({
 let GeneralInfo = mongoose.model('GeneralInfo', GeneralInfoModel);
 
 //user profile
-const UserProfileModel = new Schema({
+const UserProfile = new Schema({
     name : String,
     username : String,
     email : String,
@@ -131,4 +131,4 @@ let getAll = (model, searchCriteria) => {
 }
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, UserProfile, Department, GeneralInfo, Shift, getAll };
+module.exports = { Attendance, Leave , Employee,UserProfile, Department, GeneralInfo, Shift, getAll };

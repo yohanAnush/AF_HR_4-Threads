@@ -56,7 +56,7 @@ router.post('/add', (req, res) => {
   
 
 
-  var emp = new models.UserProfile({
+  var user = new models.UserProfile({
     
     
     name: req.body.name,
@@ -66,12 +66,47 @@ router.post('/add', (req, res) => {
     
   });
 
-  emp.save((err) => {
+  user.save((err) => {
     if (err) {
-      res.status(500).send({ success: false, data: 'Error occur while adding employee : ' + err });
+      res.status(500).send({ success: false, data: 'Error while adding user : ' + err });
     }
-    res.status(200).send({ success: true, data: 'Successfully added the employee' });
+    res.status(200).send({ success: true, data: 'Successfully added user' });
 
   });
 });
+
+
+router.put('/update/:id', (req, res) => {
+    findUser(req.params.id).then((data) => {
+      models.UserProfile.update({ eid: req.params.id }, req.body, (err) => {
+        if (err) {
+          res.status(500).send({ success: false, data: 'Internal error : ' + err });
+        }
+        res.status(200).send({ success: true, data: 'Successfully Updated' });
+      });
+    }).catch((err) => {
+      res.status(404).send({ success: false, data: 'Invalid Id Provided ' });
+    });
+  });
+
+
+  function findUser(id) {
+    return new Promise((resolve, reject) => {
+      models.UserProfile.find({ eid: id }, { _id: 0, __: 0 }, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (result.length === 0) {
+            reject('invalid id');
+          } else {
+            resolve(result);
+          }
+        }
+      });
+    });
+  }
+
+
+
+
 
