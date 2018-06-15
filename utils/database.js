@@ -72,6 +72,8 @@ let Shift = mongoose.model('Shift', ShiftModel);
 const DepartmentModel = new Schema({
     did : String,
     name : String,
+    description : String,
+    department_manager : String,
     date_established : Date
 });
 

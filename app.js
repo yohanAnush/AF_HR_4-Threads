@@ -14,6 +14,7 @@ const leavesRouter = require('./routes/leaves');
 const shiftRouter = require('./routes/shift');
 const departmentRouter = require('./routes/department');
 const generalInformationRouter = require('./routes/general');
+const UserProfileRouter = require('./routes/login');
 
 let app = express();
 
