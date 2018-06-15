@@ -3,7 +3,6 @@ const models = require('../utils/database');
 const express = require('express');
 const router = express.Router();
 var userHelper = require('../helpers/userHelper')
-const bcrypt = require('bcrypt.js');
 
 
 //get all users
