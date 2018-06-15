@@ -32,6 +32,8 @@ router.post('/add', (req,res) =>{
     let dept = models.Department({
         did: Date.now(),
         name: req.body.name,
+        description: req.body.description,
+        department_manager: req.body.department_manager,
         date_established: req.body.date_established
     });
     dept.save((err) => {
