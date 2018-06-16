@@ -80,7 +80,6 @@ router.post('/add', (req, res) => {
     name: req.body.name,
     gender: req.body.gender,
     position: req.body.position,
-    department: req.body.department,
     date_joined: new Date(Date.now()),
   });
 
@@ -133,9 +132,9 @@ router.delete('/remove/:id', (req, res) => {
  * Update Employee details using _id
  * PUT method is used to update details
  */
-router.put('/assign/', (req, res) => {
-  findEmployee(req.body.eid).then((data) => {
-    models.Employee.update({ eid: req.body.eid }, req.body, (err) => {
+router.put('/assign/:eid', (req, res) => {
+  findEmployee(req.params.eid).then((data) => {
+    models.Employee.update({ eid: req.params.eid }, {departments:req.body}, (err) => {
       if (err) {
         res.status(500).send({ success: false, data: 'Internal error : ' + err });
       }
@@ -145,6 +144,8 @@ router.put('/assign/', (req, res) => {
     res.status(404).send({ success: false, data: 'Invalid Id Provided ' });
   });
 });
+
+
 
 
 function findEmployee(id) {

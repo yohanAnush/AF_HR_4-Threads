@@ -34,7 +34,7 @@ const EmployeeModel = new Schema({
     name: String,
     gender: String,
     position: String,
-    department: String,
+    departments: Array,
     date_joined: Date
 });
 
@@ -133,4 +133,4 @@ let getAll = (model, searchCriteria) => {
 }
 
 // Exporting the mapped models.
-module.exports = { Attendance, Leave , Employee, UserProfile, Department, GeneralInfo, Shift, getAll };
+module.exports = { Attendance, Leave , Employee,UserProfile, Department, GeneralInfo, Shift, getAll };
