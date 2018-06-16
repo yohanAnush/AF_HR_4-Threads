@@ -25,6 +25,16 @@ router.get('/:did', (req, res) => {
     });
 });
 
+router.get('/name/:name', (req, res) => {
+    models.Department.find({name: req.params.name}, {_id: 0, __v:0}, function (err, data) {
+        if (err) {
+            res.send({ success: false, data: err});
+        }
+        res.status(200).send({ success: true, data: data});
+    });
+});
+
+
 
 // Add a new department to the database.
 router.post('/add', (req,res) =>{
@@ -34,7 +44,7 @@ router.post('/add', (req,res) =>{
         name: req.body.name,
         description: req.body.description,
         department_manager: req.body.department_manager,
-        date_established: req.body.date_established
+        date_established: new Date(req.body.date_established)
     });
     dept.save((err) => {
         if(err){
