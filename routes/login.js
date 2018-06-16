@@ -5,7 +5,6 @@ const router = express.Router();
 var userHelper = require('../helpers/userHelper')
 
 
-
 //get all users
 router.get('/', (req, res) => {
 
@@ -105,6 +104,11 @@ router.put('/update/:id', (req, res) => {
       });
     });
   }
+
+
+
+
+
 
 
 
