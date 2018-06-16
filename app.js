@@ -34,5 +34,6 @@ app.use('/leaves', leavesRouter);
 app.use('/shift', shiftRouter);
 app.use('/department', departmentRouter);
 app.use('/general', generalInformationRouter);
+app.use('/users',UserProfileRouter);
 
 module.exports = app;

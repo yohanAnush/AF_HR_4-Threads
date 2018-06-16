@@ -1,3 +1,10 @@
+'use strict'
+
+var randomize = require('randomatic');
+const models = require('../utils/database');
+
+
+
 let isEmpty = (text) =>{
     return text.isEmpty;
 }
@@ -13,7 +20,7 @@ let isValidEmail = (email) => {
     return re.test(email);
 }
 let generateUserName = () => {
-    return "EMP"+randomize('0', 5);
+    return "user"+randomize('0', 5);
 }
 
 
